@@ -41,8 +41,8 @@ def get_sequence(frames_names, sequence, optimize=True):
     frames = []
     global cache
     for name in frames_names:
-        if not cache.has_key(name): # check if it has benn loaded already
-            print "loading", name
+        if name not in cache: # check if it has benn loaded already
+            print("loading", name)
             if not os.path.isfile(name):
                 raise name+' is not a file or does not exist!'
             image = pygame.image.load(name) # not optimized
@@ -52,7 +52,7 @@ def get_sequence(frames_names, sequence, optimize=True):
                 else:
                     image = image.convert()
             cache[name] = image
-            
+
         # constructs a sequence of frames equal to frames_names
         frames.append(cache[name]) 
     frames2 = []
@@ -67,16 +67,16 @@ def get_names_list(basename, ext, num, num_digits=1, offset=0, prefix=False):
         # format string basename+zero_padded_number+.+ext
         format = "%0"+str(num_digits)+"d%s.%s"
         for i in range(offset, num+1):
-            names.append(format % (i, basename, ext)) 
+            names.append(format % (i, basename, ext))
     else:
         # format string basename+zero_padded_number+.+ext
         format = "%s%0"+str(num_digits)+"d.%s"
         for i in range(offset, num+1):
-            names.append(format % (basename, i,ext)) 
+            names.append(format % (basename, i,ext))
     return names
 
 def main():
-    
+
 
     names = get_names_list(os.path.normpath(name), ext, num, digits, offset, prefix)
     images = get_sequence(names, range(num), False)
@@ -89,8 +89,8 @@ def main():
         total_width += w
         if h > max_height:
             max_height = h
-        
-        
+
+
     blit_rect = pygame.Rect(0,0,images[0].get_width(),max_height)
     big = pygame.Surface((total_width, h), pygame.SRCALPHA, 32)
     big.fill((0,0,0,0))
@@ -99,8 +99,8 @@ def main():
         blit_rect.move_ip((images[idx+1].get_width(), 0))
     big.blit(images[-1], blit_rect)
     pygame.image.save(big, save_to)
-    print "saved to:", save_to
-    
+    print("saved to:", save_to)
+
 
 
 if __name__=='__main__':
